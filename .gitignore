@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+
+# Distribution folder
+dist
+
+# Environment variables
+.env
+
+# IDE files
+.vscode/
+*.code-workspace
+
+# macOS files
+.DS_Store
+
+# Logs
+logs/
+
+# TypeORM specific
+ormconfig.json
