@@ -12,6 +12,6 @@ export const datasource = new DataSource({
   database: process.env.DB_DATABASE,
   synchronize: true,
   logging: ['error', 'warn'],
-  entities: ['src/entities/*.ts'],
+  entities: ['dist/entity/*.js'],
   migrations: ['src/migrations/*.ts'],
 })
