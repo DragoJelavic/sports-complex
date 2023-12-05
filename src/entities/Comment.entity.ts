@@ -8,8 +8,8 @@ import {
 } from 'typeorm'
 import { IsNotEmpty, IsInt, Min, Max } from 'class-validator'
 
-import { User } from './User'
-import { SportsClass } from './SportsClass'
+import { User } from './User.entity'
+import { SportsClass } from './SportsClass.entity'
 
 @Entity({ name: 'comments' })
 export class Comment {

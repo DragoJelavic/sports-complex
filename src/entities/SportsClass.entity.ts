@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
 import { IsNotEmpty, IsDateString, IsInt, Min, Max } from 'class-validator'
 
-import { Sport } from './Sport'
-import { AgeGroup } from './AgeGroup'
+import { Sport } from './Sport.entity'
+import { AgeGroup } from './AgeGroup.entity'
 
 @Entity({ name: 'sports_classes' })
 export class SportsClass {
