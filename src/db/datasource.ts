@@ -3,6 +3,9 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+// only set to true in dev mode
+const synchronize = process.env.NODE_ENV === 'development'
+
 export const datasource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -10,8 +13,8 @@ export const datasource = new DataSource({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  synchronize: true,
+  synchronize,
   logging: ['error', 'warn'],
-  entities: ['src/entities/*.ts'],
-  migrations: ['src/migrations/*.ts'],
+  entities: ['dist/src/entities/*.js'],
+  migrations: ['dist/src/migrations/*.js'],
 })
