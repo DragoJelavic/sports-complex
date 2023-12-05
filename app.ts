@@ -1,4 +1,5 @@
 import express, { Express, Request, Response } from 'express'
+import 'reflect-metadata'
 import { initializeDatabase } from './src/db/dbInitializer'
 
 const app: Express = express()
