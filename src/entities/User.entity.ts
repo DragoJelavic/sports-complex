@@ -32,7 +32,10 @@ export class User {
   @IsEnum(UserRole)
   role: UserRole
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
+  verificationToken: string | null
+
+  @Column({ default: false })
   isVerified: boolean
 
   @CreateDateColumn({ name: 'created_at' })
