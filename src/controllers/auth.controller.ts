@@ -20,6 +20,21 @@ class AuthController {
       res.status(500).json({ error: (error as Error).message })
     }
   }
+
+  static async verify(req: Request, res: Response) {
+    const { token } = req.query
+
+    if (!token) {
+      return res.status(400).send('Missing a token')
+    }
+
+    try {
+      const message = await AuthService.verifyUserByToken(token as string)
+      return res.status(200).json(message)
+    } catch (error) {
+      return res.status(400).json({ error: (error as Error).message })
+    }
+  }
 }
 
 export default AuthController
