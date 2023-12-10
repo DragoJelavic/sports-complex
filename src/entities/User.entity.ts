@@ -4,11 +4,14 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  Unique,
 } from 'typeorm'
+import { UserRole } from '../enums/UserRole'
 
-import { IsNotEmpty, IsEmail, Matches } from 'class-validator'
+import { IsNotEmpty, IsEmail, Matches, IsEnum } from 'class-validator'
 
 @Entity({ name: 'users' })
+@Unique(['email'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number
@@ -26,9 +29,13 @@ export class User {
   password: string
 
   @Column()
-  role: string
+  @IsEnum(UserRole)
+  role: UserRole
 
-  @Column()
+  @Column({ type: 'varchar', nullable: true })
+  verificationToken: string | null
+
+  @Column({ default: false })
   isVerified: boolean
 
   @CreateDateColumn({ name: 'created_at' })
