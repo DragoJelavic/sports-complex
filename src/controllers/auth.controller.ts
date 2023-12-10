@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 import { ZodError } from 'zod'
-import { formatZodError } from '../schemas/zodError'
 import { ErrorMessages } from '../global/errors.enum'
 import { sendErrorResponse } from '../utils/errorHandler'
 import { CreateUserSchema, LoginSchema } from '../schemas/user.schema'
@@ -14,8 +13,13 @@ class AuthController {
     try {
       CreateUserSchema.parse({ email, password, role })
     } catch (error) {
-      const formattedError = formatZodError(error as ZodError)
-      return res.status(400).json({ error: formattedError })
+      if (error instanceof ZodError) {
+        return res
+          .status(400)
+          .json({ success: false, message: error.issues[0].message })
+      }
+
+      return sendErrorResponse(res, 400, (error as Error).message)
     }
 
     try {
@@ -49,6 +53,12 @@ class AuthController {
       const token = await AuthService.loginUser(email, password)
       return res.status(200).json({ token })
     } catch (error) {
+      if (error instanceof ZodError) {
+        return res
+          .status(400)
+          .json({ success: false, message: error.issues[0].message })
+      }
+
       return sendErrorResponse(res, 400, (error as Error).message)
     }
   }
