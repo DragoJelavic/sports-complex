@@ -1,12 +1,13 @@
 import sgMail from '@sendgrid/mail'
 import fs from 'fs/promises'
 import path from 'path'
+import { ErrorMessages } from '../global/errors.enum'
 
 const sendGridApiKey = process.env.SENDGRID_API_KEY
 const sendGridApiSenderEmail = process.env.SENDGRID_API_SENDER_EMAIL
 
 if (!sendGridApiKey || !sendGridApiSenderEmail) {
-  throw new Error('Sendgrid API variables not defined')
+  throw new Error(ErrorMessages.SendgridAPIError)
 }
 
 sgMail.setApiKey(sendGridApiKey)
@@ -40,6 +41,6 @@ export const sendVerificationEmail = async (
     console.log('Verification email sent')
   } catch (error) {
     console.error('Error sending verification email:', error)
-    throw new Error('Failed to send verification email')
+    throw new Error(ErrorMessages.VerificationEmailError)
   }
 }
