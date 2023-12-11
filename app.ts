@@ -4,6 +4,7 @@ import compression from 'compression'
 
 import { initializeDatabase } from './src/db/dbInitializer'
 import authRoutes from './src/routes/authentication.route'
+import sportsRoutes from './src/routes/sports.route'
 
 const app: Express = express()
 const port: number = Number(process.env.PORT) || 3000
@@ -16,6 +17,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 app.use('/auth', authRoutes)
+app.use('/sports', sportsRoutes)
 
 initializeDatabase()
 
