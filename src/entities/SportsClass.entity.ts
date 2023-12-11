@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
-import { IsNotEmpty, IsDateString, IsInt, Min, Max } from 'class-validator'
+import { IsDateString, IsInt, Min, Max } from 'class-validator'
 
 import { Sport } from './Sport.entity'
 import { AgeGroup } from './AgeGroup.entity'
@@ -14,10 +14,6 @@ export class SportsClass {
 
   @ManyToOne(() => AgeGroup)
   ageGroup: AgeGroup
-
-  @Column()
-  @IsNotEmpty()
-  dayOfWeek: string
 
   @Column()
   @IsDateString()
