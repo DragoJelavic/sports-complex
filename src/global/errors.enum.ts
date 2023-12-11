@@ -15,3 +15,9 @@ export enum SportErrorMessages {
   NoSportByIdError = 'There is no sport with provided ID',
   SportNameExistsError = 'Sport with that name already exists',
 }
+
+export enum AgeGroupErrorMessages {
+  DefaultError = 'Error creating an age group',
+  NoAgeGroupByIdError = 'There is no age group with provided ID',
+  AgeGroupExistsError = 'Age group with that name already exists',
+}
