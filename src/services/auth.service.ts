@@ -6,10 +6,10 @@ import { UserRepository } from '../repositories/user.repository'
 import { UserRole } from '../enums/UserRole'
 
 import { sendVerificationEmail } from '../utils/sendgrid'
-import { ErrorMessages } from '../global/errors.enum'
+import { AuthErrorMessages } from '../global/errors.enum'
 
 class AuthService {
-  private static readonly Errors = ErrorMessages
+  private static readonly Errors = AuthErrorMessages
 
   static async createUser(
     email: string,
@@ -21,7 +21,6 @@ class AuthService {
     if (found) {
       throw new Error(this.Errors.UserExists)
     }
-
     const hashedPassword = await bcrypt.hash(password, 10)
     const verificationToken = uuidv4()
 

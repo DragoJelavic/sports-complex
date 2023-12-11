@@ -1,13 +1,13 @@
 import sgMail from '@sendgrid/mail'
 import fs from 'fs/promises'
 import path from 'path'
-import { ErrorMessages } from '../global/errors.enum'
+import { AuthErrorMessages } from '../global/errors.enum'
 
 const sendGridApiKey = process.env.SENDGRID_API_KEY
 const sendGridApiSenderEmail = process.env.SENDGRID_API_SENDER_EMAIL
 
 if (!sendGridApiKey || !sendGridApiSenderEmail) {
-  throw new Error(ErrorMessages.SendgridAPIError)
+  throw new Error(AuthErrorMessages.SendgridAPIError)
 }
 
 sgMail.setApiKey(sendGridApiKey)
@@ -41,6 +41,6 @@ export const sendVerificationEmail = async (
     console.log('Verification email sent')
   } catch (error) {
     console.error('Error sending verification email:', error)
-    throw new Error(ErrorMessages.VerificationEmailError)
+    throw new Error(AuthErrorMessages.VerificationEmailError)
   }
 }

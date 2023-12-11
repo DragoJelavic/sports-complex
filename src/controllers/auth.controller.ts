@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { ZodError } from 'zod'
-import { ErrorMessages } from '../global/errors.enum'
+import { AuthErrorMessages } from '../global/errors.enum'
 import { sendErrorResponse } from '../utils/errorHandler'
 import { CreateUserSchema, LoginSchema } from '../schemas/user.schema'
 
@@ -34,7 +34,7 @@ class AuthController {
     const { token } = req.query
 
     if (!token || typeof token !== 'string') {
-      return sendErrorResponse(res, 400, ErrorMessages.InvalidToken)
+      return sendErrorResponse(res, 400, AuthErrorMessages.InvalidToken)
     }
 
     try {
