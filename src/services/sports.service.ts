@@ -22,7 +22,7 @@ class SportsService {
   static async updateSport(id: number, name: string): Promise<string> {
     const existingSport = await SportsRepository.findOne({ where: { id } })
 
-    if (!existingSport) throw new Error(this.Errors.NoSportByIdError)
+    if (!existingSport) throw new Error(this.Errors.SportNotFound)
 
     const newSportName = await SportsRepository.findByName(name)
 
