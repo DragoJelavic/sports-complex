@@ -12,6 +12,7 @@ import {
 import { SportClassesErrorMessages } from '../global/errors.enum'
 import { ZodError } from 'zod'
 import { Between } from 'typeorm'
+import { getDayOfWeek } from '../utils/common'
 
 class SportClassesService {
   private static readonly Errors = SportClassesErrorMessages
@@ -45,12 +46,15 @@ class SportClassesService {
       throw new Error(this.Errors.SimilarClassExists)
     }
 
+    const dayOfWeek = getDayOfWeek(startTime)
+
     const newClass = SportsClassRepository.create({
       sport,
       ageGroup,
       startTime,
       endTime,
       maxCapacity: classData.maxCapacity,
+      dayOfWeek,
     })
 
     await SportsClassRepository.save(newClass)

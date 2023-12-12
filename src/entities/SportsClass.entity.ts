@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
-import { IsDateString, IsInt, Min, Max } from 'class-validator'
+import { IsDateString, IsInt, Min, Max, IsNotEmpty } from 'class-validator'
 
 import { Sport } from './Sport.entity'
 import { AgeGroup } from './AgeGroup.entity'
@@ -22,6 +22,10 @@ export class SportsClass {
   @Column()
   @IsDateString()
   endTime: Date
+
+  @Column('varchar', { default: 'Unknown' })
+  @IsNotEmpty()
+  dayOfWeek: string
 
   @Column()
   @IsInt()
