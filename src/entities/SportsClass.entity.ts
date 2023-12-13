@@ -1,5 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
-import { IsDateString, IsInt, Min, Max, IsNotEmpty } from 'class-validator'
+import {
+  IsDateString,
+  IsInt,
+  Min,
+  Max,
+  IsNotEmpty,
+  MinLength,
+  MaxLength,
+} from 'class-validator'
 
 import { Sport } from './Sport.entity'
 import { AgeGroup } from './AgeGroup.entity'
@@ -32,4 +40,18 @@ export class SportsClass {
   @Min(1)
   @Max(10)
   maxCapacity: number
+
+  @Column({ type: 'time', default: '00:00' })
+  startHour: string
+
+  @Column({ type: 'time', default: '00:00' })
+  endHour: string
+
+  @Column({ type: 'int', default: 0 })
+  duration: number
+
+  @MinLength(20)
+  @MaxLength(100)
+  @Column({ type: 'text', nullable: true })
+  description: string
 }
