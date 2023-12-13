@@ -28,4 +28,5 @@ export enum SportClassesErrorMessages {
   ClassNotFound = 'There is no class with provided ID',
   SimilarClassExists = 'Age group with that name already exists',
   UpdateFailedError = 'Failed to update a class',
+  StartTimeAfterEndTime = 'Start of a class cannot be after end of a class',
 }

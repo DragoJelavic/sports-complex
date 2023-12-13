@@ -24,11 +24,31 @@ html(lang='en')
           th Sport name
           th Age group
           th Day of week
+          th Date
           th Max capacity
+          th Start
+          th End
+          th Duration (mins)
+          th Class description
       tbody
         each item in classes
           tr
             td= item.sport.name
             td= item.ageGroup.name
             td= item.dayOfWeek
+            td
+              script.
+                function formatDate(dateString) {
+                  const date = new Date(dateString);
+                  return date.toLocaleDateString('en-US');
+                }
+                document.write(formatDate("#{item.startTime}"))
             td= item.maxCapacity
+            td= item.startHour 
+            td= item.endHour
+            td= item.duration
+            td
+              if item.description !== null && item.description !== undefined
+                p= item.description
+              else
+                p= ''
