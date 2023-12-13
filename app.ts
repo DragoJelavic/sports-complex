@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express'
 import 'reflect-metadata'
 import compression from 'compression'
+import * as path from 'path'
 
 import { initializeDatabase } from './src/db/dbInitializer'
 import authRoutes from './src/routes/authentication.route'
@@ -11,6 +12,8 @@ import sportClassesRoute from './src/routes/sportClasses.route'
 const app: Express = express()
 const port: number = Number(process.env.PORT) || 3000
 
+app.set('view engine', 'pug')
+app.set('views', path.join(__dirname, '../public/views'))
 app.use(compression())
 app.use(express.json())
 

@@ -27,3 +27,8 @@ export interface ICreateClass {
   endTime: Date
   maxCapacity: number
 }
+
+export interface IClassFilterParams {
+  sports: string[]
+  age?: string
+}

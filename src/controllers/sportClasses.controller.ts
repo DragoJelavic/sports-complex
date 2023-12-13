@@ -39,6 +39,21 @@ class SportClassesController {
       return sendErrorResponse(res, 500, (error as Error).message)
     }
   }
+
+  static async getClasses(req: Request, res: Response) {
+    const { sports, age } = req.query
+
+    try {
+      const filteredClasses = await SportClassesService.getClasses({
+        sports: sports ? String(sports).split(',') : [],
+        age: age ? String(age) : undefined,
+      })
+
+      res.render('classes', { classes: filteredClasses })
+    } catch (error) {
+      return sendErrorResponse(res, 500, (error as Error).message)
+    }
+  }
 }
 
 export default SportClassesController

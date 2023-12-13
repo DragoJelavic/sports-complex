@@ -1,0 +1,34 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Sports Classes
+    style.
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+  body
+    h1 Sports Classes
+    table
+      thead
+        tr
+          th Sport name
+          th Age group
+          th Day of week
+          th Max capacity
+      tbody
+        each item in classes
+          tr
+            td= item.sport.name
+            td= item.ageGroup.name
+            td= item.dayOfWeek
+            td= item.maxCapacity

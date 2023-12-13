@@ -8,6 +8,7 @@ import {
   UpdateClassSchema,
   ICreateClass,
   IUpdateClass,
+  IClassFilterParams,
 } from '../schemas/sportClasses.schema'
 import { SportClassesErrorMessages } from '../global/errors.enum'
 import { ZodError } from 'zod'
@@ -87,6 +88,25 @@ class SportClassesService {
     }
 
     return 'Sports class updated successfully'
+  }
+
+  static async getClasses(filterParams: IClassFilterParams) {
+    const { sports, age } = filterParams
+
+    let query = SportsClassRepository.createQueryBuilder('sports_class')
+      .leftJoinAndSelect('sports_class.sport', 'sport')
+      .leftJoinAndSelect('sports_class.ageGroup', 'ageGroup')
+
+    if (sports.length > 0) {
+      query = query.where('sport.name IN (:...sports)', { sports })
+    }
+
+    if (age) {
+      query = query.andWhere('ageGroup.name = :age', { age })
+    }
+
+    const classes = await query.getMany()
+    return classes
   }
 }
 
