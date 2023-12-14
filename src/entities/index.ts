@@ -1,0 +1,6 @@
+export * from './AgeGroup.entity'
+export * from './Comment.entity'
+export * from './Sport.entity'
+export * from './SportsClass.entity'
+export * from './User.entity'
+export * from './UserSportsClassEnrollment.entity'

@@ -12,7 +12,7 @@ export enum AuthErrorMessages {
 
 export enum SportErrorMessages {
   DefaultError = 'Error creating a sport',
-  NoSportByIdError = 'There is no sport with provided ID',
+  SportNotFound = 'There is no sport with provided ID',
   SportNameExistsError = 'Sport with that name already exists',
 }
 
@@ -20,4 +20,13 @@ export enum AgeGroupErrorMessages {
   DefaultError = 'Error creating an age group',
   NoAgeGroupByIdError = 'There is no age group with provided ID',
   AgeGroupExistsError = 'Age group with that name already exists',
+}
+
+export enum SportClassesErrorMessages {
+  SportNotFound = 'There is no sport with provided ID',
+  AgeGroupNotFound = 'There is no age group with provided ID',
+  ClassNotFound = 'There is no class with provided ID',
+  SimilarClassExists = 'Age group with that name already exists',
+  UpdateFailedError = 'Failed to update a class',
+  StartTimeAfterEndTime = 'Start of a class cannot be after end of a class',
 }
