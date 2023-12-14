@@ -17,10 +17,10 @@ export class SportsClass {
   @PrimaryGeneratedColumn()
   id: number
 
-  @ManyToOne(() => Sport)
+  @ManyToOne(() => Sport, { onDelete: 'CASCADE' })
   sport: Sport
 
-  @ManyToOne(() => AgeGroup)
+  @ManyToOne(() => AgeGroup, { onDelete: 'CASCADE' })
   ageGroup: AgeGroup
 
   @Column()
