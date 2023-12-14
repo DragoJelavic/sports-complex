@@ -1,8 +1,4 @@
-import {
-  SportsClassRepository,
-  SportsRepository,
-  AgeGroupRepository,
-} from '../repositories/'
+import { Between } from 'typeorm'
 import {
   CreateClassSchema,
   UpdateClassSchema,
@@ -10,10 +6,12 @@ import {
   IUpdateClass,
   IClassFilterParams,
 } from '../schemas/sportClasses.schema'
+import { SportsClassRepository } from '../repositories'
 import { SportClassesErrorMessages } from '../global/errors.enum'
 import { ZodError } from 'zod'
-import { Between } from 'typeorm'
 import { getDayOfWeek, formatTime } from '../utils/common'
+import { Sport, AgeGroup, SportsClass } from '../entities'
+import { datasource } from '../db/datasource'
 
 class SportClassesService {
   private static readonly Errors = SportClassesErrorMessages
@@ -27,51 +25,60 @@ class SportClassesService {
 
     const { sportId, ageGroupId, startTime, endTime } = classData
 
-    const sport = await SportsRepository.findOne({ where: { id: sportId } })
-    const ageGroup = await AgeGroupRepository.findOne({
-      where: { id: ageGroupId },
-    })
+    let newClass
 
-    if (!sport) throw new Error(this.Errors.SportNotFound)
-    if (!ageGroup) throw new Error(this.Errors.AgeGroupNotFound)
+    await datasource.transaction(async (transactionalEntityManager) => {
+      const sport = await transactionalEntityManager.findOne(Sport, {
+        where: { id: sportId },
+      })
+      const ageGroup = await transactionalEntityManager.findOne(AgeGroup, {
+        where: { id: ageGroupId },
+      })
 
-    const existingClass = await SportsClassRepository.findOne({
-      where: {
+      if (!sport) throw new Error(this.Errors.SportNotFound)
+      if (!ageGroup) throw new Error(this.Errors.AgeGroupNotFound)
+
+      const existingClass = await transactionalEntityManager.findOne(
+        SportsClass,
+        {
+          where: {
+            sport,
+            ageGroup,
+            startTime: Between(startTime, endTime),
+          },
+        },
+      )
+
+      if (existingClass) {
+        throw new Error(this.Errors.SimilarClassExists)
+      }
+
+      if (startTime >= endTime) {
+        throw new Error(this.Errors.StartTimeAfterEndTime)
+      }
+
+      const startHour = new Date(classData.startTime)
+      const endHour = new Date(classData.endTime)
+      const dayOfWeek = getDayOfWeek(startTime)
+      const durationInMinutes = Math.floor(
+        (endHour.getTime() - startHour.getTime()) / (1000 * 60),
+      )
+
+      newClass = SportsClassRepository.create({
         sport,
         ageGroup,
-        startTime: Between(startTime, endTime),
-      },
+        startTime,
+        endTime,
+        maxCapacity: classData.maxCapacity,
+        dayOfWeek,
+        startHour: formatTime(startHour),
+        endHour: formatTime(endHour),
+        duration: durationInMinutes,
+        description: classData.description,
+      })
+
+      await transactionalEntityManager.save(newClass)
     })
-
-    if (existingClass) {
-      throw new Error(this.Errors.SimilarClassExists)
-    }
-
-    if (startTime >= endTime) {
-      throw new Error(this.Errors.StartTimeAfterEndTime)
-    }
-
-    const startHour = new Date(classData.startTime)
-    const endHour = new Date(classData.endTime)
-    const dayOfWeek = getDayOfWeek(startTime)
-    const durationInMinutes = Math.floor(
-      (endHour.getTime() - startHour.getTime()) / (1000 * 60),
-    )
-
-    const newClass = SportsClassRepository.create({
-      sport: sport,
-      ageGroup: ageGroup,
-      startTime,
-      endTime,
-      maxCapacity: classData.maxCapacity,
-      dayOfWeek: dayOfWeek,
-      startHour: formatTime(startHour),
-      endHour: formatTime(endHour),
-      duration: durationInMinutes,
-      description: classData.description,
-    })
-
-    await SportsClassRepository.save(newClass)
 
     return 'Sports class created successfully'
   }
