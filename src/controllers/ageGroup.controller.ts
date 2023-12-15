@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import AgeGroupService from '../services/ageGroup.service'
+import AgeGroupService from '../services/ageGroups.service'
 import {
   CreateAgeGroupSchema,
   UpdateAgeGroupSchema,
