@@ -6,7 +6,7 @@ import * as path from 'path'
 import { initializeDatabase } from './src/db/dbInitializer'
 import authRoutes from './src/routes/authentication.route'
 import sportsRoutes from './src/routes/sports.route'
-import ageGroupRoutes from './src/routes/ageGroup.route'
+import ageGroupRoutes from './src/routes/ageGroups.route'
 import sportClassesRoute from './src/routes/sportClasses.route'
 
 const app: Express = express()

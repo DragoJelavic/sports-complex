@@ -1,4 +1,4 @@
-import { AgeGroupRepository } from '../repositories/ageGroup.repository'
+import { AgeGroupRepository } from '../repositories/ageGroups.repository'
 import { AgeGroupErrorMessages } from '../global/errors.enum'
 
 class AgeGroupService {

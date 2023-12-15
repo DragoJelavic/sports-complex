@@ -1,4 +1,4 @@
-export * from './ageGroup.repository'
+export * from './ageGroups.repository'
 export * from './sportClasses.repository'
 export * from './sports.repository'
-export * from './user.repository'
+export * from './users.repository'
