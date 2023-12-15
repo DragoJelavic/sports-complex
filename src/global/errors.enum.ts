@@ -30,3 +30,11 @@ export enum SportClassesErrorMessages {
   UpdateFailedError = 'Failed to update a class',
   StartTimeAfterEndTime = 'Start of a class cannot be after end of a class',
 }
+
+export enum UserErrorMessages {
+  UserNotFound = 'There is no user with provided ID',
+  ClassNotFound = 'There is no class with provided ID',
+  AlreadyEnrolled = 'User is already enrolled in this class',
+  NotEnrolled = 'User was not enrolled in this class',
+  CannotEnroll = 'User reached maximum number of enrollments',
+}
