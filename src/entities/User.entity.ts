@@ -5,10 +5,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Unique,
+  OneToMany,
 } from 'typeorm'
 import { UserRole } from '../enums/UserRole'
 
 import { IsNotEmpty, IsEmail, Matches, IsEnum } from 'class-validator'
+import { UserSportsClassEnrollment } from './UserSportsClassEnrollment.entity'
 
 @Entity({ name: 'users' })
 @Unique(['email'])
@@ -37,6 +39,9 @@ export class User {
 
   @Column({ default: false })
   isVerified: boolean
+
+  @OneToMany(() => UserSportsClassEnrollment, (enrollment) => enrollment.user) // Define the relationship here
+  enrollments: UserSportsClassEnrollment[]
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date

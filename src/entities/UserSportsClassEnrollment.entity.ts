@@ -7,9 +7,9 @@ export class UserSportsClassEnrollment {
   @PrimaryGeneratedColumn()
   id: number
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { onDelete: 'CASCADE' })
   user: User
 
-  @ManyToOne(() => SportsClass)
+  @ManyToOne(() => SportsClass, { onDelete: 'CASCADE' })
   sportsClass: SportsClass
 }

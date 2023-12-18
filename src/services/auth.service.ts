@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import jwt from 'jsonwebtoken'
 
-import { UserRepository } from '../repositories/user.repository'
+import { UserRepository } from '../repositories/users.repository'
 import { UserRole } from '../enums/UserRole'
 
 import { sendVerificationEmail } from '../utils/sendgrid'

@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm'
 import {
   IsDateString,
   IsInt,
@@ -11,16 +17,17 @@ import {
 
 import { Sport } from './Sport.entity'
 import { AgeGroup } from './AgeGroup.entity'
+import { UserSportsClassEnrollment } from './UserSportsClassEnrollment.entity'
 
 @Entity({ name: 'sports_classes' })
 export class SportsClass {
   @PrimaryGeneratedColumn()
   id: number
 
-  @ManyToOne(() => Sport)
+  @ManyToOne(() => Sport, { onDelete: 'CASCADE' })
   sport: Sport
 
-  @ManyToOne(() => AgeGroup)
+  @ManyToOne(() => AgeGroup, { onDelete: 'CASCADE' })
   ageGroup: AgeGroup
 
   @Column()
@@ -54,4 +61,10 @@ export class SportsClass {
   @MaxLength(100)
   @Column({ type: 'text', nullable: true })
   description: string
+
+  @OneToMany(
+    () => UserSportsClassEnrollment,
+    (enrollment) => enrollment.sportsClass,
+  )
+  enrollments: UserSportsClassEnrollment[]
 }
