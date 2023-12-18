@@ -1,5 +1,5 @@
 import { datasource } from '../db/datasource'
-import { User, SportsClass, UserSportsClassEnrollment } from '../entities'
+import { User, SportsClass } from '../entities'
 import { UserSportsClassRepository } from '../repositories'
 import { UserErrorMessages } from '../global/errors.enum'
 import { MAX_NUMBER_OF_ENROLLMENTS } from '../global/consts'
@@ -10,40 +10,31 @@ class UsersService {
     let newEnrollment
 
     await datasource.transaction(async (transactionalEntityManager) => {
-      const existingUser = await transactionalEntityManager.findOne(User, {
-        where: { id: userId },
-        relations: ['enrollments'],
-      })
-      const existingSportsClass = await transactionalEntityManager.findOne(
-        SportsClass,
-        {
-          where: { id: classId },
-          relations: ['enrollments'],
-        },
-      )
+      const existingUser =
+        await UserSportsClassRepository.findUserByIdWithEnrollments(
+          userId,
+          transactionalEntityManager,
+        )
+      const existingSportsClass =
+        await UserSportsClassRepository.findSportsClassByIdWithEnrollments(
+          classId,
+          transactionalEntityManager,
+        )
+
       if (!existingUser) throw new Error(this.Errors.UserNotFound)
       if (!existingSportsClass) throw new Error(this.Errors.ClassNotFound)
 
-      const enrollmentsCount = existingSportsClass.enrollments.length
-      const userEnrollmentsCount = existingUser.enrollments.length
+      this.validateEnrollment(existingUser, existingSportsClass)
 
-      if (enrollmentsCount >= existingSportsClass.maxCapacity)
-        throw new Error(this.Errors.ClassCannotEnroll)
-
-      if (userEnrollmentsCount >= MAX_NUMBER_OF_ENROLLMENTS)
-        throw new Error(this.Errors.UserCannotEnroll)
-
-      const isEnrolled = await transactionalEntityManager.findOne(
-        UserSportsClassEnrollment,
-        {
-          where: {
-            user: { id: existingUser.id },
-            sportsClass: { id: existingSportsClass.id },
-          },
-        },
+      const isEnrolled = await UserSportsClassRepository.findEnrollment(
+        existingUser,
+        existingSportsClass,
+        transactionalEntityManager,
       )
 
-      if (isEnrolled) throw new Error(this.Errors.AlreadyEnrolled)
+      if (isEnrolled) {
+        throw new Error(this.Errors.AlreadyEnrolled)
+      }
 
       newEnrollment = UserSportsClassRepository.create({
         user: existingUser,
@@ -67,17 +58,16 @@ class UsersService {
           where: { id: classId },
         },
       )
+
+      this.validateEnrollment(existingUser, existingSportsClass)
+
       if (!existingUser) throw new Error(this.Errors.UserNotFound)
       if (!existingSportsClass) throw new Error(this.Errors.ClassNotFound)
 
-      const enrollment = await transactionalEntityManager.findOne(
-        UserSportsClassEnrollment,
-        {
-          where: {
-            user: { id: existingUser.id },
-            sportsClass: { id: existingSportsClass.id },
-          },
-        },
+      const enrollment = await UserSportsClassRepository.findEnrollment(
+        existingUser,
+        existingSportsClass,
+        transactionalEntityManager,
       )
 
       if (!enrollment) throw new Error(this.Errors.NotEnrolled)
@@ -86,6 +76,30 @@ class UsersService {
     })
 
     return 'User is unenrolled'
+  }
+
+  private static validateEnrollment(
+    existingUser: User | null,
+    existingSportsClass: SportsClass | null,
+  ): void {
+    if (!existingUser) {
+      throw new Error(this.Errors.UserNotFound)
+    }
+
+    if (!existingSportsClass) {
+      throw new Error(this.Errors.ClassNotFound)
+    }
+
+    const enrollmentsCount = existingSportsClass.enrollments.length
+    const userEnrollmentsCount = existingUser.enrollments.length
+
+    if (enrollmentsCount >= existingSportsClass.maxCapacity) {
+      throw new Error(this.Errors.ClassCannotEnroll)
+    }
+
+    if (userEnrollmentsCount >= MAX_NUMBER_OF_ENROLLMENTS) {
+      throw new Error(this.Errors.UserCannotEnroll)
+    }
   }
 }
 
