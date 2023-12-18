@@ -59,8 +59,6 @@ class UsersService {
         },
       )
 
-      this.validateEnrollment(existingUser, existingSportsClass)
-
       if (!existingUser) throw new Error(this.Errors.UserNotFound)
       if (!existingSportsClass) throw new Error(this.Errors.ClassNotFound)
 
