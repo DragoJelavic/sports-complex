@@ -36,5 +36,6 @@ export enum UserErrorMessages {
   ClassNotFound = 'There is no class with provided ID',
   AlreadyEnrolled = 'User is already enrolled in this class',
   NotEnrolled = 'User was not enrolled in this class',
-  CannotEnroll = 'User reached maximum number of enrollments',
+  UserCannotEnroll = 'User reached maximum number of class enrollments',
+  ClassCannotEnroll = 'Class reached maximum number of user enrollments',
 }

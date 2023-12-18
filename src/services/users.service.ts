@@ -18,15 +18,20 @@ class UsersService {
         SportsClass,
         {
           where: { id: classId },
+          relations: ['enrollments'],
         },
       )
       if (!existingUser) throw new Error(this.Errors.UserNotFound)
       if (!existingSportsClass) throw new Error(this.Errors.ClassNotFound)
 
-      const enrollmentsCount = existingUser.enrollments.length
+      const enrollmentsCount = existingSportsClass.enrollments.length
+      const userEnrollmentsCount = existingUser.enrollments.length
 
-      if (enrollmentsCount >= MAX_NUMBER_OF_ENROLLMENTS)
-        throw new Error(this.Errors.CannotEnroll)
+      if (enrollmentsCount >= existingSportsClass.maxCapacity)
+        throw new Error(this.Errors.ClassCannotEnroll)
+
+      if (userEnrollmentsCount >= MAX_NUMBER_OF_ENROLLMENTS)
+        throw new Error(this.Errors.UserCannotEnroll)
 
       const isEnrolled = await transactionalEntityManager.findOne(
         UserSportsClassEnrollment,
