@@ -64,7 +64,7 @@ class SportClassesService {
         (endHour.getTime() - startHour.getTime()) / (1000 * 60),
       )
 
-      newClass = SportsClassRepository.create({
+      newClass = transactionalEntityManager.create(SportsClass, {
         sport,
         ageGroup,
         startTime,
