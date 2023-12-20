@@ -1,11 +1,12 @@
 import { datasource } from '../db/datasource'
 import { User, SportsClass } from '../entities'
 import { UserSportsClassRepository } from '../repositories'
-import { UserErrorMessages } from '../global/errors.enum'
+import { CommonErrorMessages, UserErrorMessages } from '../global/errors.enum'
 import { MAX_NUMBER_OF_ENROLLMENTS } from '../global/consts'
 
 class UsersService {
   private static readonly Errors = UserErrorMessages
+  private static readonly CommonErrors = CommonErrorMessages
   static async enroll(userId: number, classId: number): Promise<string> {
     let newEnrollment
 
@@ -21,8 +22,8 @@ class UsersService {
           transactionalEntityManager,
         )
 
-      if (!existingUser) throw new Error(this.Errors.UserNotFound)
-      if (!existingSportsClass) throw new Error(this.Errors.ClassNotFound)
+      if (!existingUser) throw new Error(this.CommonErrors.UserNotFound)
+      if (!existingSportsClass) throw new Error(this.CommonErrors.ClassNotFound)
 
       this.validateEnrollment(existingUser, existingSportsClass)
 
@@ -59,8 +60,8 @@ class UsersService {
         },
       )
 
-      if (!existingUser) throw new Error(this.Errors.UserNotFound)
-      if (!existingSportsClass) throw new Error(this.Errors.ClassNotFound)
+      if (!existingUser) throw new Error(this.CommonErrors.UserNotFound)
+      if (!existingSportsClass) throw new Error(this.CommonErrors.ClassNotFound)
 
       const enrollment = await UserSportsClassRepository.findEnrollment(
         existingUser,
@@ -81,11 +82,11 @@ class UsersService {
     existingSportsClass: SportsClass | null,
   ): void {
     if (!existingUser) {
-      throw new Error(this.Errors.UserNotFound)
+      throw new Error(this.CommonErrors.UserNotFound)
     }
 
     if (!existingSportsClass) {
-      throw new Error(this.Errors.ClassNotFound)
+      throw new Error(this.CommonErrors.ClassNotFound)
     }
 
     const enrollmentsCount = existingSportsClass.enrollments.length

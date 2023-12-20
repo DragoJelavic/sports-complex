@@ -1,8 +1,9 @@
 import { SportsRepository } from '../repositories/sports.repository'
-import { SportErrorMessages } from '../global/errors.enum'
+import { CommonErrorMessages, SportErrorMessages } from '../global/errors.enum'
 
 class SportsService {
   private static readonly Errors = SportErrorMessages
+  private static readonly CommonErrors = CommonErrorMessages
 
   static async createSport(name: string): Promise<string> {
     const existingSport = await SportsRepository.findByName(name)
@@ -13,7 +14,7 @@ class SportsService {
       const newSport = await SportsRepository.create({ name })
       await SportsRepository.save(newSport)
     } catch (error) {
-      throw new Error(this.Errors.DefaultError)
+      throw new Error(this.Errors.SportCreationError)
     }
 
     return `Sport ${name} created`
@@ -22,7 +23,7 @@ class SportsService {
   static async updateSport(id: number, name: string): Promise<string> {
     const existingSport = await SportsRepository.findOne({ where: { id } })
 
-    if (!existingSport) throw new Error(this.Errors.SportNotFound)
+    if (!existingSport) throw new Error(this.CommonErrors.SportNotFound)
 
     const newSportName = await SportsRepository.findByName(name)
 
@@ -33,7 +34,7 @@ class SportsService {
     try {
       await SportsRepository.save(existingSport)
     } catch (error) {
-      throw new Error(this.Errors.DefaultError)
+      throw new Error(this.Errors.SportCreationError)
     }
 
     return `Sport name updated`

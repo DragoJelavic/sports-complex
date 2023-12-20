@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
-import { sendErrorResponse } from '../utils/errorHandler'
-import { ZodError } from 'zod'
+import { handleError } from '../utils/errorHandler'
 import CommentsService from '../services/comments.service'
 import {
   IAddComment,
@@ -30,12 +29,7 @@ class CommentsController {
       )
       return res.status(201).json({ message })
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json({ success: false, message: error.issues[0].message })
-      }
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 
@@ -53,12 +47,7 @@ class CommentsController {
       )
       return res.status(201).json({ message })
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json({ success: false, message: error.issues[0].message })
-      }
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 
@@ -68,7 +57,7 @@ class CommentsController {
       const message = await CommentsService.deleteComment(Number(commentId))
       return res.status(201).json({ message })
     } catch (error) {
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 }

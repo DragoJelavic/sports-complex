@@ -13,7 +13,7 @@ class AgeGroupService {
       const newAgeGroup = await AgeGroupRepository.create({ name })
       await AgeGroupRepository.save(newAgeGroup)
     } catch (error) {
-      throw new Error(this.Errors.DefaultError)
+      throw new Error(this.Errors.AgeGroupCreationError)
     }
 
     return `Age group ${name} created`
@@ -33,7 +33,7 @@ class AgeGroupService {
     try {
       await AgeGroupRepository.save(existingAgeGroup)
     } catch (error) {
-      throw new Error(this.Errors.DefaultError)
+      throw new Error(this.Errors.AgeGroupCreationError)
     }
 
     return `Age group updated`

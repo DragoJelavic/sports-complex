@@ -1,13 +1,12 @@
 import { SportsClass, User } from '../entities'
-import { CommentErrorMessages } from '../global/errors.enum'
 import { SportsClassRepository } from '../repositories'
 import { CommentsRepository } from '../repositories/comments.repository'
 import { Comment } from '../entities'
 import { datasource } from '../db/datasource'
+import { CommonErrorMessages } from '../global/errors.enum'
 
 class CommentsService {
-  private static readonly Errors = CommentErrorMessages
-
+  private static readonly CommonErrors = CommonErrorMessages
   static async addComment(
     userId: number,
     classId: number,
@@ -26,8 +25,8 @@ class CommentsService {
         },
       )
 
-      if (!user) throw new Error('User not found')
-      if (!sportsClass) throw new Error('Sport class not found')
+      if (!user) throw new Error(this.CommonErrors.UserNotFound)
+      if (!sportsClass) throw new Error(this.CommonErrors.ClassNotFound)
 
       const newComment = transactionalEntityManager.create(Comment, {
         user,
@@ -56,7 +55,7 @@ class CommentsService {
     })
 
     if (!updatedComment) {
-      throw new Error('Comment not found')
+      throw new Error(this.CommonErrors.CommentNotFound)
     }
 
     if (rating !== undefined) {
@@ -82,7 +81,7 @@ class CommentsService {
     })
 
     if (!comment) {
-      throw new Error('Comment not found')
+      throw new Error(this.CommonErrors.CommentNotFound)
     }
 
     await CommentsRepository.remove(comment)

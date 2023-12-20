@@ -1,8 +1,7 @@
 import { Request, Response } from 'express'
 import SportClassesService from '../services/sportClasses.service'
-import { ZodError } from 'zod'
 import { ICreateClass } from '../schemas/sportClasses.schema'
-import { sendErrorResponse } from '../utils/errorHandler'
+import { handleError } from '../utils/errorHandler'
 
 class SportClassesController {
   static async createClass(req: Request, res: Response) {
@@ -12,13 +11,7 @@ class SportClassesController {
       const message = await SportClassesService.createClass(classData)
       return res.status(201).json({ message })
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json({ success: false, message: error.issues[0].message })
-      }
-
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 
@@ -30,13 +23,7 @@ class SportClassesController {
       const message = await SportClassesService.updateClass(classId, classData)
       return res.status(200).json({ message })
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json({ success: false, message: error.issues[0].message })
-      }
-
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 
@@ -51,7 +38,7 @@ class SportClassesController {
 
       res.render('classes', { classes: filteredClasses })
     } catch (error) {
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 }
