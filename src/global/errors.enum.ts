@@ -39,3 +39,5 @@ export enum UserErrorMessages {
   UserCannotEnroll = 'User reached maximum number of class enrollments',
   ClassCannotEnroll = 'Class reached maximum number of user enrollments',
 }
+
+export enum CommentErrorMessages {}
