@@ -4,6 +4,7 @@ import { checkToken, isAdmin } from '../middlewares'
 
 const router = express.Router()
 
+router.get('', checkToken, isAdmin, SportsController.getSports)
 router.post('/create', checkToken, isAdmin, SportsController.createSport)
 router.patch('/:id/update', checkToken, isAdmin, SportsController.updateSport)
 

@@ -27,7 +27,7 @@ app.use('/auth', authRoutes)
 app.use('/sports', sportsRoutes)
 app.use('/age-group', ageGroupRoutes)
 app.use('/sport-classes', sportClassesRoute)
-app.use('/user', userRoute)
+app.use('/users', userRoute)
 app.use('/comments', commentsRoute)
 
 initializeDatabase()

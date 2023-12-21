@@ -4,6 +4,15 @@ import { CreateSportSchema, UpdateNameSchema } from '../schemas/sports.schema'
 import { handleError } from '../utils/errorHandler'
 
 class SportsController {
+  static async getSports(req: Request, res: Response) {
+    try {
+      const sports = await SportsService.getSports()
+      return res.status(200).json({ sports })
+    } catch (error) {
+      handleError(res, error)
+    }
+  }
+
   static async createSport(req: Request, res: Response) {
     const { name } = req.body
 

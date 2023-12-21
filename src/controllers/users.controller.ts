@@ -3,6 +3,15 @@ import { handleError } from '../utils/errorHandler'
 import UsersService from '../services/users.service'
 
 class UsersController {
+  static async getUsers(req: Request, res: Response) {
+    try {
+      const users = await UsersService.getUsers()
+      return res.status(200).json({ users })
+    } catch (error) {
+      handleError(res, error)
+    }
+  }
+
   static async enroll(req: Request, res: Response) {
     const { userId, classId } = req.params
 
