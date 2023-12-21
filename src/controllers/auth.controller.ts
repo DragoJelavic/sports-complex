@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
-import { ZodError } from 'zod'
 import { AuthErrorMessages } from '../global/errors.enum'
-import { sendErrorResponse } from '../utils/errorHandler'
+import { handleError, sendErrorResponse } from '../utils/errorHandler'
 import { CreateUserSchema, LoginSchema } from '../schemas/user.schema'
 
 import AuthService from '../services/auth.service'
@@ -13,20 +12,14 @@ class AuthController {
     try {
       CreateUserSchema.parse({ email, password, role })
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json({ success: false, message: error.issues[0].message })
-      }
-
-      return sendErrorResponse(res, 400, (error as Error).message)
+      return handleError(res, error)
     }
 
     try {
       const message = await AuthService.createUser(email, password, role)
       return res.status(201).json(message)
     } catch (error) {
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 
@@ -41,7 +34,7 @@ class AuthController {
       const message = await AuthService.verifyUserByToken(token)
       return res.status(200).json({ message })
     } catch (error) {
-      return sendErrorResponse(res, 400, (error as Error).message)
+      return handleError(res, error)
     }
   }
 
@@ -53,13 +46,7 @@ class AuthController {
       const token = await AuthService.loginUser(email, password)
       return res.status(200).json({ token })
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json({ success: false, message: error.issues[0].message })
-      }
-
-      return sendErrorResponse(res, 400, (error as Error).message)
+      return handleError(res, error)
     }
   }
 }

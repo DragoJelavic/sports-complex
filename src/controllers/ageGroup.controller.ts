@@ -4,8 +4,7 @@ import {
   CreateAgeGroupSchema,
   UpdateAgeGroupSchema,
 } from '../schemas/ageGroup.schema'
-import { sendErrorResponse } from '../utils/errorHandler'
-import { ZodError } from 'zod'
+import { handleError } from '../utils/errorHandler'
 
 class AgeGroupController {
   static async createAgeGroup(req: Request, res: Response) {
@@ -16,12 +15,7 @@ class AgeGroupController {
       const message = await AgeGroupService.createAgeGroup(name)
       return res.status(201).json(message)
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json({ success: false, message: error.issues[0].message })
-      }
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 
@@ -34,12 +28,7 @@ class AgeGroupController {
       const message = await AgeGroupService.updateAgeGroup(ageGroupId, name)
       return res.status(201).json(message)
     } catch (error) {
-      if (error instanceof ZodError) {
-        return res
-          .status(400)
-          .json({ success: false, message: error.issues[0].message })
-      }
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 }

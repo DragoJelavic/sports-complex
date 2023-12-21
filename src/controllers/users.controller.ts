@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { sendErrorResponse } from '../utils/errorHandler'
+import { handleError } from '../utils/errorHandler'
 import UsersService from '../services/users.service'
 
 class UsersController {
@@ -10,7 +10,7 @@ class UsersController {
       const message = await UsersService.enroll(Number(userId), Number(classId))
       return res.status(201).json(message)
     } catch (error) {
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 
@@ -24,7 +24,7 @@ class UsersController {
       )
       return res.status(201).json(message)
     } catch (error) {
-      return sendErrorResponse(res, 500, (error as Error).message)
+      return handleError(res, error)
     }
   }
 }

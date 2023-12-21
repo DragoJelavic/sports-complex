@@ -9,6 +9,7 @@ import sportsRoutes from './src/routes/sports.route'
 import ageGroupRoutes from './src/routes/ageGroups.route'
 import sportClassesRoute from './src/routes/sportClasses.route'
 import userRoute from './src/routes/users.route'
+import commentsRoute from './src/routes/comments.route'
 
 const app: Express = express()
 const port: number = Number(process.env.PORT) || 3000
@@ -27,6 +28,7 @@ app.use('/sports', sportsRoutes)
 app.use('/age-group', ageGroupRoutes)
 app.use('/sport-classes', sportClassesRoute)
 app.use('/user', userRoute)
+app.use('/comments', commentsRoute)
 
 initializeDatabase()
 

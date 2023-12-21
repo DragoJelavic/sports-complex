@@ -7,7 +7,10 @@ import {
   IClassFilterParams,
 } from '../schemas/sportClasses.schema'
 import { SportsClassRepository } from '../repositories'
-import { SportClassesErrorMessages } from '../global/errors.enum'
+import {
+  CommonErrorMessages,
+  SportClassesErrorMessages,
+} from '../global/errors.enum'
 import { ZodError } from 'zod'
 import { getDayOfWeek, formatTime } from '../utils/common'
 import { Sport, AgeGroup, SportsClass } from '../entities'
@@ -15,6 +18,7 @@ import { datasource } from '../db/datasource'
 
 class SportClassesService {
   private static readonly Errors = SportClassesErrorMessages
+  private static readonly CommonErrors = CommonErrorMessages
 
   static async createClass(classData: ICreateClass): Promise<string> {
     try {
@@ -35,8 +39,8 @@ class SportClassesService {
         where: { id: ageGroupId },
       })
 
-      if (!sport) throw new Error(this.Errors.SportNotFound)
-      if (!ageGroup) throw new Error(this.Errors.AgeGroupNotFound)
+      if (!sport) throw new Error(this.CommonErrors.SportNotFound)
+      if (!ageGroup) throw new Error(this.CommonErrors.AgeGroupNotFound)
 
       const existingClass = await transactionalEntityManager.findOne(
         SportsClass,
@@ -64,7 +68,7 @@ class SportClassesService {
         (endHour.getTime() - startHour.getTime()) / (1000 * 60),
       )
 
-      newClass = SportsClassRepository.create({
+      newClass = transactionalEntityManager.create(SportsClass, {
         sport,
         ageGroup,
         startTime,
@@ -97,7 +101,7 @@ class SportClassesService {
       where: { id: classId },
     })
     if (!existingClass) {
-      throw new Error(this.Errors.ClassNotFound)
+      throw new Error(this.CommonErrors.ClassNotFound)
     }
 
     try {

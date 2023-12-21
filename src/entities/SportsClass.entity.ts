@@ -15,9 +15,7 @@ import {
   MaxLength,
 } from 'class-validator'
 
-import { Sport } from './Sport.entity'
-import { AgeGroup } from './AgeGroup.entity'
-import { UserSportsClassEnrollment } from './UserSportsClassEnrollment.entity'
+import { Sport, AgeGroup, UserSportsClassEnrollment, Comment } from './'
 
 @Entity({ name: 'sports_classes' })
 export class SportsClass {
@@ -67,4 +65,10 @@ export class SportsClass {
     (enrollment) => enrollment.sportsClass,
   )
   enrollments: UserSportsClassEnrollment[]
+
+  @Column({ type: 'float', default: 0 })
+  averageRating: number
+
+  @OneToMany(() => Comment, (comment) => comment.sportsClass)
+  comments: Comment[]
 }
