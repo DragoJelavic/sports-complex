@@ -4,9 +4,58 @@ import { CommentsRepository } from '../repositories/comments.repository'
 import { Comment } from '../entities'
 import { datasource } from '../db/datasource'
 import { CommonErrorMessages } from '../global/errors.enum'
+import {
+  ICommentWithClassInfo,
+  ICommentDetails,
+} from '../schemas/comments.schema'
 
 class CommentsService {
   private static readonly CommonErrors = CommonErrorMessages
+
+  static async getComments(classId: number) {
+    const classInfo = await SportsClassRepository.findOne({
+      where: { id: classId },
+      relations: ['comments', 'sport', 'ageGroup'],
+    })
+
+    if (!classInfo) {
+      throw new Error(this.CommonErrors.ClassNotFound)
+    }
+
+    const comments: ICommentDetails[] = []
+
+    for (const comment of classInfo.comments) {
+      const commentDetail: ICommentDetails = {
+        id: comment.id,
+        commentText: comment.commentText,
+        rating: comment.rating,
+        isAnonymous: comment.isAnonymous,
+      }
+
+      if (comment && !comment.isAnonymous) {
+        // If the comment is not anonymous, retrieve user email via the comment's user relation
+        const commentEntry = await CommentsRepository.findOne({
+          where: { id: comment.id },
+          relations: ['user'],
+        })
+        if (commentEntry && commentEntry.user) {
+          commentDetail.userEmail = commentEntry.user.email
+        }
+      }
+
+      comments.push(commentDetail)
+    }
+
+    const commentWithClassInfo: ICommentWithClassInfo = {
+      className: classInfo.sport.name,
+      averageRating: classInfo.averageRating,
+      ageGroup: classInfo.ageGroup.name,
+      comments,
+    }
+
+    return commentWithClassInfo
+  }
+
   static async addComment(
     userId: number,
     classId: number,
@@ -47,7 +96,6 @@ class CommentsService {
     commentId: number,
     rating?: number,
     commentText?: string,
-    isAnonymous?: boolean,
   ): Promise<string> {
     const updatedComment = await CommentsRepository.findOne({
       where: { id: commentId },
@@ -63,9 +111,6 @@ class CommentsService {
     }
     if (commentText !== undefined) {
       updatedComment.commentText = commentText
-    }
-    if (isAnonymous !== undefined) {
-      updatedComment.isAnonymous = isAnonymous
     }
 
     await CommentsRepository.save(updatedComment)

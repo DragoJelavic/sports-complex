@@ -10,7 +10,6 @@ export const AddCommentSchema = z.object({
 export const UpdateCommentSchema = z.object({
   rating: z.number().int().min(1).max(10).optional(),
   commentText: z.string().min(10).max(100).optional(),
-  isAnonymous: z.boolean().optional(),
 })
 
 export interface IAddComment {
@@ -23,5 +22,19 @@ export interface IAddComment {
 export interface IUpdateComment {
   rating?: number
   commentText?: string
-  isAnonymous?: boolean
+}
+
+export interface ICommentDetails {
+  id: number
+  commentText: string
+  rating: number
+  isAnonymous: boolean
+  userEmail?: string
+}
+
+export interface ICommentWithClassInfo {
+  className: string
+  averageRating: number
+  ageGroup: string
+  comments: ICommentDetails[]
 }
