@@ -4,10 +4,13 @@ export enum AuthErrorMessages {
   VerificationEmailError = 'There was an issue sending the verification email',
   InvalidUserToken = 'Invalid user token',
   InvalidToken = 'Invalid or missing token',
+  InvalidTokenUnauthorized = 'Unauthorized. Invalid token.',
   UserVerified = 'User is already verified',
   UserNotRegistered = 'User not found. Please register.',
   IncorrectPassword = 'Incorrect password. Please try again.',
   SendgridAPIError = 'Sendgrid API variables not set',
+  AccessDeniedAdmin = 'Access denied. Admins only.',
+  AccessDeniedNotVerified = 'Access denied. Verify your account.',
 }
 
 export enum SportErrorMessages {
