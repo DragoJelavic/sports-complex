@@ -5,6 +5,12 @@ class SportsService {
   private static readonly Errors = SportErrorMessages
   private static readonly CommonErrors = CommonErrorMessages
 
+  static async getSports(): Promise<string | string[]> {
+    const sports = (await SportsRepository.find()).map((sport) => sport.name)
+
+    return sports
+  }
+
   static async createSport(name: string): Promise<string> {
     const existingSport = await SportsRepository.findByName(name)
 
