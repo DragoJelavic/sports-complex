@@ -1,12 +1,19 @@
 import { datasource } from '../db/datasource'
 import { User, SportsClass } from '../entities'
-import { UserSportsClassRepository } from '../repositories'
+import { UserRepository, UserSportsClassRepository } from '../repositories'
 import { CommonErrorMessages, UserErrorMessages } from '../global/errors.enum'
 import { MAX_NUMBER_OF_ENROLLMENTS } from '../global/consts'
 
 class UsersService {
   private static readonly Errors = UserErrorMessages
   private static readonly CommonErrors = CommonErrorMessages
+
+  static async getUsers(): Promise<User | User[]> {
+    const users = await UserRepository.find()
+
+    return users
+  }
+
   static async enroll(userId: number, classId: number): Promise<string> {
     let newEnrollment
 
