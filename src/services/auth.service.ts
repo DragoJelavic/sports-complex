@@ -7,6 +7,7 @@ import { UserRole } from '../enums/UserRole'
 
 import { sendVerificationEmail } from '../utils/sendgrid'
 import { AuthErrorMessages } from '../global/errors.enum'
+import { User } from '../entities'
 
 class AuthService {
   private static readonly Errors = AuthErrorMessages
@@ -73,10 +74,10 @@ class AuthService {
       throw new Error(this.Errors.IncorrectPassword)
     }
 
-    return await this.generateToken(user.id)
+    return await this.generateToken(user)
   }
 
-  private static async generateToken(userId: number): Promise<string> {
+  private static async generateToken(user: User): Promise<string> {
     const jwtSecret = process.env.JWT_SECRET
     const jwtExpiryTime = process.env.JWT_EXPIRY_TIME || '15m'
 
@@ -84,7 +85,7 @@ class AuthService {
       throw new Error(this.Errors.JwtSecretNotSet)
     }
 
-    return jwt.sign({ userId }, jwtSecret, {
+    return jwt.sign({ user }, jwtSecret, {
       expiresIn: jwtExpiryTime,
     })
   }
