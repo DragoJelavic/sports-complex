@@ -15,7 +15,6 @@ class CommentsController {
       const comments = await CommentsService.getComments(Number(classId))
       res.render('comments', { comments })
     } catch (error) {
-      console.log(error)
       return handleError(res, error)
     }
   }

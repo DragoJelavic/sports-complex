@@ -7,6 +7,15 @@ import {
 import { handleError } from '../utils/errorHandler'
 
 class AgeGroupController {
+  static async getAgeGroups(req: Request, res: Response) {
+    try {
+      const ageGroups = await AgeGroupService.getAgeGroups()
+      return res.status(200).json({ ageGroups })
+    } catch (error) {
+      handleError(res, error)
+    }
+  }
+
   static async createAgeGroup(req: Request, res: Response) {
     const { name } = req.body
 

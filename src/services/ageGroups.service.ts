@@ -4,6 +4,14 @@ import { AgeGroupErrorMessages } from '../global/errors.enum'
 class AgeGroupService {
   private static readonly Errors = AgeGroupErrorMessages
 
+  static async getAgeGroups(): Promise<string | string[]> {
+    const ageGroups = (await AgeGroupRepository.find()).map(
+      (group) => group.name,
+    )
+
+    return ageGroups
+  }
+
   static async createAgeGroup(name: string): Promise<string> {
     const existingAgeGroup = await AgeGroupRepository.findByName(name)
 
