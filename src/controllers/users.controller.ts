@@ -8,7 +8,7 @@ class UsersController {
       const users = await UsersService.getUsers()
       return res.status(200).json({ users })
     } catch (error) {
-      handleError(res, error)
+      handleError(res, error, 404)
     }
   }
 

@@ -16,12 +16,14 @@ export enum AuthErrorMessages {
 export enum SportErrorMessages {
   SportCreationError = 'Error creating a sport',
   SportNameExistsError = 'Sport with that name already exists',
+  NotFound = 'Sports not found',
 }
 
 export enum AgeGroupErrorMessages {
   AgeGroupCreationError = 'Error creating an age group',
   NoAgeGroupByIdError = 'There is no age group with provided ID',
   AgeGroupExistsError = 'Age group with that name already exists',
+  NotFound = 'Age groups not found',
 }
 
 export enum SportClassesErrorMessages {
@@ -35,6 +37,7 @@ export enum UserErrorMessages {
   NotEnrolled = 'User was not enrolled in this class',
   UserCannotEnroll = 'User reached maximum number of class enrollments',
   ClassCannotEnroll = 'Class reached maximum number of user enrollments',
+  NotFound = 'Users not found',
 }
 
 export enum CommonErrorMessages {
