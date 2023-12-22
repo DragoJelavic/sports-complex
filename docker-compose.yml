@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Map the container port to host machine
+
+  # Add your database service here (PostgreSQL)
+  # Example:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: sports-complex
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: marita0608
