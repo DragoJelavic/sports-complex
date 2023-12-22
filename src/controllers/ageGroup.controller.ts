@@ -12,7 +12,7 @@ class AgeGroupController {
       const ageGroups = await AgeGroupService.getAgeGroups()
       return res.status(200).json({ ageGroups })
     } catch (error) {
-      handleError(res, error)
+      handleError(res, error, 404)
     }
   }
 

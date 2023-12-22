@@ -9,7 +9,7 @@ class SportsController {
       const sports = await SportsService.getSports()
       return res.status(200).json({ sports })
     } catch (error) {
-      handleError(res, error)
+      handleError(res, error, 404)
     }
   }
 
