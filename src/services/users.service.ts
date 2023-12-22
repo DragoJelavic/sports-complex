@@ -11,6 +11,8 @@ class UsersService {
   static async getUsers(): Promise<User | User[]> {
     const users = await UserRepository.find()
 
+    if (!users) throw new Error(this.Errors.NotFound)
+
     return users
   }
 

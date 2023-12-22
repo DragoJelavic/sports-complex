@@ -9,6 +9,8 @@ class AgeGroupService {
       (group) => group.name,
     )
 
+    if (!ageGroups) throw new Error(this.Errors.NotFound)
+
     return ageGroups
   }
 
