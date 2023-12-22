@@ -1,7 +1,9 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express } from 'express'
 import 'reflect-metadata'
 import compression from 'compression'
 import * as path from 'path'
+import swaggerUi from 'swagger-ui-express'
+import swaggerConfig from './src/swagger/swaggerConfig'
 
 import { initializeDatabase } from './src/db/dbInitializer'
 import authRoutes from './src/routes/authentication.route'
@@ -19,13 +21,11 @@ app.set('views', path.join(__dirname, '../public/views'))
 app.use(compression())
 app.use(express.json())
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('hello from express TS')
-})
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig))
 
 app.use('/auth', authRoutes)
 app.use('/sports', sportsRoutes)
-app.use('/age-group', ageGroupRoutes)
+app.use('/age-groups', ageGroupRoutes)
 app.use('/sport-classes', sportClassesRoute)
 app.use('/users', userRoute)
 app.use('/comments', commentsRoute)
