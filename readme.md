@@ -2,7 +2,12 @@
 
 ## Description
 
-The Sports Complex Application is designed to manage sport classes, providing functionality for [insert main features here].
+The Sports Complex Application is designed to manage sport classes, providing functionality for
+- Create, view, update and delete users (last 3 - Admin only)
+- Create, view, update and delete sports (Admin only)
+- Create, view, update and delete Age groups (Admin only) 
+- Create, view, update and delete Sport classes (CUD for Admin only)
+- Create and update comments and ratings for each sport class while Admin only can view the comments
 
 ## Prerequisites
 
