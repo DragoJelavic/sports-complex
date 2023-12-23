@@ -13,7 +13,10 @@ The Sports Complex Application is designed to manage sport classes, providing fu
 
 Before running the application, ensure you have the following installed:
 
+- Node JS
 - [Docker](https://www.docker.com/products/docker-desktop)
+- PostgreSQL (if not using Docker for database)
+
 
 ## Getting Started
 
@@ -26,7 +29,7 @@ Follow these steps to run the application:
     cd sports-complex
     ```
 
-2. Create a `.env` file in the root directory and populate it with your environment variables:
+2. Create a `.env` file in the root directory by duplicating ``.env.example`` and populate it with your environment variables. Don't forget that variables in docker.compose must match these from `.env`:
 
     ```plaintext
     # APP
