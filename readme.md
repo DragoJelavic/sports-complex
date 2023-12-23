@@ -77,3 +77,7 @@ Follow these steps to run the application:
     docker-compose down
     ```
 
+## Contributing
+- If you'd like to contribute to this project, feel free to fork the repository and submit a pull request.
+- Feel free to reach on [LinkedIn](https://www.linkedin.com/in/drago-jelavi%C4%87-564b64180/) for any questions,suggestions or potential collaborations.
+
