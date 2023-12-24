@@ -22,6 +22,10 @@ class CommentsService {
       throw new Error(this.CommonErrors.ClassNotFound)
     }
 
+    if (!classInfo.comments || classInfo.comments.length === 0) {
+      throw new Error(this.CommonErrors.NoCommentsFound)
+    }
+
     const comments: ICommentDetails[] = []
 
     for (const comment of classInfo.comments) {

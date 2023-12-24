@@ -130,6 +130,10 @@ class SportClassesService {
     }
 
     const classes = await query.getMany()
+
+    if (!classes || !classes.length)
+      throw new Error(this.Errors.ClassesNotFound)
+
     return classes
   }
 }
