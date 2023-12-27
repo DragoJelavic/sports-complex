@@ -8,7 +8,7 @@ class SportsService {
   static async getSports(): Promise<string | string[]> {
     const sports = (await SportsRepository.find()).map((sport) => sport.name)
 
-    if (!sports) throw new Error(this.Errors.NotFound)
+    if (!sports || !sports.length) throw new Error(this.Errors.NotFound)
 
     return sports
   }

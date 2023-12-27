@@ -1,4 +1,4 @@
-import express, { Express } from 'express'
+import express, { Express, Request, Response } from 'express'
 import 'reflect-metadata'
 import compression from 'compression'
 import * as path from 'path'
@@ -12,6 +12,7 @@ import ageGroupRoutes from './src/routes/ageGroups.route'
 import sportClassesRoute from './src/routes/sportClasses.route'
 import userRoute from './src/routes/users.route'
 import commentsRoute from './src/routes/comments.route'
+import { Server } from 'http'
 
 const app: Express = express()
 const port: number = Number(process.env.PORT) || 3000
@@ -30,8 +31,17 @@ app.use('/sport-classes', sportClassesRoute)
 app.use('/users', userRoute)
 app.use('/comments', commentsRoute)
 
-initializeDatabase()
-
-app.listen(port, () => {
-  console.log(`listening on port ${port} `)
+app.get('/', (req: Request, res: Response) => {
+  return res.status(200).send('Hello from Sport complex app')
 })
+
+export const startServer = async (): Promise<Server> => {
+  await initializeDatabase()
+  const server = app.listen(port, () => {
+    console.log(`listening on port ${port} `)
+  })
+
+  return server
+}
+
+export default app
