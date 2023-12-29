@@ -7,6 +7,8 @@ export async function initializeDatabase(): Promise<void> {
       console.log('db initialized')
     }
   } catch (error) {
-    console.log('error during db initialization', error)
+    if (process.env.NODE_ENV !== 'test') {
+      console.log('error during db initialization', error)
+    }
   }
 }
