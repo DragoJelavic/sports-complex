@@ -44,4 +44,15 @@ export const startServer = async (): Promise<Server> => {
   return server
 }
 
+// Check if this file is being run directly
+if (require.main === module) {
+  startServer()
+    .then(() => {
+      console.log('Server started successfully')
+    })
+    .catch((error) => {
+      console.error('Error starting the server:', error)
+    })
+}
+
 export default app
