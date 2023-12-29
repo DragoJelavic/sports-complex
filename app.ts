@@ -5,14 +5,8 @@ import * as path from 'path'
 import swaggerUi from 'swagger-ui-express'
 import swaggerConfig from './src/swagger/swaggerConfig'
 
-import { initializeDatabase } from './src/db/dbInitializer'
-import authRoutes from './src/routes/authentication.route'
-import sportsRoutes from './src/routes/sports.route'
-import ageGroupRoutes from './src/routes/ageGroups.route'
-import sportClassesRoute from './src/routes/sportClasses.route'
-import userRoute from './src/routes/users.route'
-import commentsRoute from './src/routes/comments.route'
-import { Server } from 'http'
+import routeManager from './src/routes/routeManager'
+import { startServer } from './server'
 
 const app: Express = express()
 const port: number = Number(process.env.PORT) || 3000
@@ -24,29 +18,19 @@ app.use(express.json())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig))
 
-app.use('/auth', authRoutes)
-app.use('/sports', sportsRoutes)
-app.use('/age-groups', ageGroupRoutes)
-app.use('/sport-classes', sportClassesRoute)
-app.use('/users', userRoute)
-app.use('/comments', commentsRoute)
+app.use('/auth', routeManager.authRoutes)
+app.use('/sports', routeManager.sportsRoutes)
+app.use('/age-groups', routeManager.ageGroupRoutes)
+app.use('/sport-classes', routeManager.sportClassesRoute)
+app.use('/users', routeManager.userRoute)
+app.use('/comments', routeManager.commentsRoute)
 
 app.get('/', (req: Request, res: Response) => {
   return res.status(200).send('Hello from Sport complex app')
 })
 
-export const startServer = async (): Promise<Server> => {
-  await initializeDatabase()
-  const server = app.listen(port, () => {
-    console.log(`listening on port ${port} `)
-  })
-
-  return server
-}
-
-// Check if this file is being run directly
 if (require.main === module) {
-  startServer()
+  startServer(app, port)
     .then(() => {
       console.log('Server started successfully')
     })
