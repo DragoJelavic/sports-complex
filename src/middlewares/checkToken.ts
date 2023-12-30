@@ -7,7 +7,13 @@ export const checkToken = (
   res: Response,
   next: NextFunction,
 ): void => {
-  const token = req.headers.authorization?.split(' ')[1]
+  let token = req.headers.authorization?.split(' ')[1]
+
+  // If the token is not in the header, check the cookies
+  if (!token && req.cookies && req.cookies.access_token) {
+    token = req.cookies.access_token
+  }
+
   if (!token) {
     res.status(401).json({ message: AuthErrorMessages.InvalidToken })
     return
@@ -22,6 +28,12 @@ export const checkToken = (
   try {
     const decoded = jwt.verify(token, jwtSecret) as JwtPayload
     req.user = decoded.user
+
+    // Set the token in the cookie for subsequent requests
+    res.cookie('access_token', token, {
+      httpOnly: true,
+    })
+
     next()
   } catch (error) {
     res

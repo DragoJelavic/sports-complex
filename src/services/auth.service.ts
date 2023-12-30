@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import jwt from 'jsonwebtoken'
+import { Response } from 'express'
 
 import { UserRepository } from '../repositories/users.repository'
 import { UserRole } from '../enums/UserRole'
@@ -61,7 +62,11 @@ class AuthService {
     return 'User verified successfully'
   }
 
-  static async loginUser(email: string, password: string): Promise<string> {
+  static async loginUser(
+    email: string,
+    password: string,
+    res: Response,
+  ): Promise<void> {
     const user = await UserRepository.findByEmail(email)
 
     if (!user) {
@@ -74,7 +79,11 @@ class AuthService {
       throw new Error(this.Errors.IncorrectPassword)
     }
 
-    return await this.generateToken(user)
+    const token = await this.generateToken(user)
+
+    res.cookie('access_token', token, {
+      httpOnly: true,
+    })
   }
 
   private static async generateToken(user: User): Promise<string> {

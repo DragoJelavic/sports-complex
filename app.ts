@@ -4,6 +4,7 @@ import compression from 'compression'
 import * as path from 'path'
 import swaggerUi from 'swagger-ui-express'
 import swaggerConfig from './src/swagger/swaggerConfig'
+import cookieParser from 'cookie-parser'
 
 import routeManager from './src/routes/routeManager'
 import { startServer } from './server'
@@ -15,6 +16,7 @@ app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, '../public/views'))
 app.use(compression())
 app.use(express.json())
+app.use(cookieParser())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConfig))
 
