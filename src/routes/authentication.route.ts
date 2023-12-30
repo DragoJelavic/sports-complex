@@ -88,4 +88,18 @@ router.post('/login', AuthController.login)
 
 router.get('/verify', AuthController.verify)
 
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Log out the user by clearing the authentication cookie
+ *     tags: [Authentication/authorization endpoints]
+ *     responses:
+ *       '200':
+ *         description: User logged out successfully
+ *       '500':
+ *         description: Internal server error
+ */
+router.post('/logout', AuthController.logout)
+
 export default router

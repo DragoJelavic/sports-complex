@@ -43,8 +43,19 @@ class AuthController {
 
     try {
       LoginSchema.parse({ email, password })
-      const token = await AuthService.loginUser(email, password)
+      const token = await AuthService.loginUser(email, password, res)
       return res.status(200).json({ token })
+    } catch (error) {
+      return handleError(res, error)
+    }
+  }
+
+  static async logout(req: Request, res: Response) {
+    try {
+      // Clear the access_token cookie
+      res.clearCookie('access_token')
+
+      return res.status(200).json({ message: 'User logged out successfully' })
     } catch (error) {
       return handleError(res, error)
     }
