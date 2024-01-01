@@ -9,6 +9,10 @@ The Sports Complex Application is designed to manage sport classes, providing fu
 - Create, view, update and delete Sport classes (CUD for Admin only)
 - Create and update comments and ratings for each sport class while Admin only can view the comments
 
+**Extras**
+- View the comments in the browser in table sorted stlye
+- View the sport classes in the browser in table sorted style
+
 Database schema
 ![Database Schema](./database-schema.png)
 
