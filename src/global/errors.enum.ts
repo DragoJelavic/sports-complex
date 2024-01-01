@@ -24,6 +24,7 @@ export enum AgeGroupErrorMessages {
   NoAgeGroupByIdError = 'There is no age group with provided ID',
   AgeGroupExistsError = 'Age group with that name already exists',
   NotFound = 'Age groups not found',
+  AgeGroupDeletionError = 'Error deleting an age group',
 }
 
 export enum SportClassesErrorMessages {

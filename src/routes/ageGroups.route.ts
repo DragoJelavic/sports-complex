@@ -87,4 +87,35 @@ router.patch(
   AgeGroupController.updateAgeGroup,
 )
 
+/**
+ * @swagger
+ * /age-groups/delete/{id}:
+ *   delete:
+ *     summary: Delete an Age group by ID
+ *     tags: [Age Groups]
+ *     security:
+ *        - bearerAuth: []
+ *        - Admin only: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           description: Age group ID
+ *     responses:
+ *        '200':
+ *         description: Age group deleted successfully
+ *        '404':
+ *         description: Age group not found
+ *        '500':
+ *         description: Internal server error
+ */
+router.delete(
+  '/delete/:id',
+  checkToken,
+  isAdmin,
+  AgeGroupController.deleteAgeGroup,
+)
+
 export default router
