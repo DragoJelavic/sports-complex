@@ -37,6 +37,17 @@ class SportsController {
       return handleError(res, error)
     }
   }
+
+  static async deleteSport(req: Request, res: Response) {
+    const sportId = Number(req.params.id)
+
+    try {
+      const message = await SportsService.deleteSport(sportId)
+      return res.status(200).json(message)
+    } catch (error) {
+      return handleError(res, error)
+    }
+  }
 }
 
 export default SportsController

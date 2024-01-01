@@ -17,6 +17,7 @@ export enum SportErrorMessages {
   SportCreationError = 'Error creating a sport',
   SportNameExistsError = 'Sport with that name already exists',
   NotFound = 'Sports not found',
+  SportDeletionError = 'Error deleting a sport',
 }
 
 export enum AgeGroupErrorMessages {

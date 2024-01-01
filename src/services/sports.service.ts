@@ -47,6 +47,20 @@ class SportsService {
 
     return `Sport name updated`
   }
+
+  static async deleteSport(id: number): Promise<string> {
+    const existingSport = await SportsRepository.findOne({ where: { id } })
+
+    if (!existingSport) throw new Error(this.CommonErrors.SportNotFound)
+
+    try {
+      await SportsRepository.delete(existingSport)
+    } catch (error) {
+      throw new Error(this.Errors.SportDeletionError)
+    }
+
+    return `Sport deleted`
+  }
 }
 
 export default SportsService
