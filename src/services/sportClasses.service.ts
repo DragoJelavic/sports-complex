@@ -136,6 +136,23 @@ class SportClassesService {
 
     return classes
   }
+
+  static async deleteClass(classId: number): Promise<string> {
+    const existingClass = await SportsClassRepository.findOne({
+      where: { id: classId },
+    })
+    if (!existingClass) {
+      throw new Error(this.CommonErrors.ClassNotFound)
+    }
+
+    try {
+      await SportsClassRepository.remove(existingClass)
+    } catch (error) {
+      throw new Error(this.Errors.ClassDeletionError)
+    }
+
+    return 'Sports class deleted'
+  }
 }
 
 export default SportClassesService

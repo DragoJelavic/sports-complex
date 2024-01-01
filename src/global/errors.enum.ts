@@ -33,6 +33,7 @@ export enum SportClassesErrorMessages {
   UpdateFailedError = 'Failed to update a class',
   StartTimeAfterEndTime = 'Start of a class cannot be after end of a class',
   ClassesNotFound = 'No class found',
+  ClassDeletionError = 'Error deleting a sports class',
 }
 
 export enum UserErrorMessages {

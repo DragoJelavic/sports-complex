@@ -107,6 +107,6 @@ router.patch('/:id/update', checkToken, isAdmin, SportsController.updateSport)
  *       '500':
  *         description: Internal server error
  */
-router.delete('/delete/:id', SportsController.deleteSport)
+router.delete('/delete/:id', checkToken, isAdmin, SportsController.deleteSport)
 
 export default router
