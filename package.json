@@ -10,7 +10,8 @@
     "build": "rimraf dist && npx tsc",
     "preserve": "npm run build",
     "serve": "concurrently \"npx tsc -w\"  \"nodemon dist/app.js\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "seed": "node dist/src/db/seed.js"
   },
   "jest": {
     "preset": "ts-jest",

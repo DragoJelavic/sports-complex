@@ -9,6 +9,10 @@ The Sports Complex Application is designed to manage sport classes, providing fu
 - Create, view, update and delete Sport classes (CUD for Admin only)
 - Create and update comments and ratings for each sport class while Admin only can view the comments
 
+**Extras**
+- View the comments in the browser in table sorted stlye
+- View the sport classes in the browser in table sorted style
+
 Database schema
 ![Database Schema](./database-schema.png)
 
@@ -65,7 +69,13 @@ Follow these steps to run the application:
 
     This command will build the Docker images and start the containers for the application and database.
 
-4. Access the application in your browser at `http://localhost:PORT`.
+4. Seed the Database: After the containers are up and running, open a new terminal window/tab and navigate to the project directory. Run the following command to seed the database with initial data:
+
+    ```bash
+    npm run seed
+    ```
+
+5. Access the application in your browser at `http://localhost:PORT`.
 
 ## Additional Information
 
