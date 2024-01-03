@@ -66,7 +66,7 @@ class AuthService {
     email: string,
     password: string,
     res: Response,
-  ): Promise<void> {
+  ): Promise<string> {
     const user = await UserRepository.findByEmail(email)
 
     if (!user) {
@@ -84,6 +84,8 @@ class AuthService {
     res.cookie('access_token', token, {
       httpOnly: true,
     })
+
+    return token
   }
 
   private static async generateToken(user: User): Promise<string> {
