@@ -21,7 +21,7 @@ class SportClassesController {
 
     try {
       const message = await SportClassesService.updateClass(classId, classData)
-      return res.status(200).json({ message })
+      return res.status(201).json({ message })
     } catch (error) {
       return handleError(res, error)
     }
@@ -37,6 +37,17 @@ class SportClassesController {
       })
 
       res.render('classes', { classes: filteredClasses })
+    } catch (error) {
+      return handleError(res, error)
+    }
+  }
+
+  static async deleteClass(req: Request, res: Response) {
+    const classId = Number(req.params.id)
+
+    try {
+      const message = await SportClassesService.deleteClass(classId)
+      return res.status(200).json({ message })
     } catch (error) {
       return handleError(res, error)
     }

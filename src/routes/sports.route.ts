@@ -83,4 +83,30 @@ router.post('/create', checkToken, isAdmin, SportsController.createSport)
 
 router.patch('/:id/update', checkToken, isAdmin, SportsController.updateSport)
 
+/**
+ * @swagger
+ * /sports/delete/{id}:
+ *   delete:
+ *     summary: Delete a Sport by ID
+ *     tags: [Sports]
+ *     security:
+ *       - bearerAuth: []
+ *       - Admin only
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           description: Sport ID
+ *     responses:
+ *       '200':
+ *         description: Sport deleted successfully
+ *       '404':
+ *         description: Sport not found
+ *       '500':
+ *         description: Internal server error
+ */
+router.delete('/delete/:id', checkToken, isAdmin, SportsController.deleteSport)
+
 export default router

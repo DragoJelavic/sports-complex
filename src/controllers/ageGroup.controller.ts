@@ -40,6 +40,17 @@ class AgeGroupController {
       return handleError(res, error)
     }
   }
+
+  static async deleteAgeGroup(req: Request, res: Response) {
+    const ageGroupId = Number(req.params.id)
+
+    try {
+      const message = await AgeGroupService.deleteAgeGroup(ageGroupId)
+      return res.status(200).json(message)
+    } catch (error) {
+      return handleError(res, error)
+    }
+  }
 }
 
 export default AgeGroupController

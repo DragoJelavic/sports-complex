@@ -48,6 +48,20 @@ class AgeGroupService {
 
     return `Age group updated`
   }
+
+  static async deleteAgeGroup(id: number): Promise<string> {
+    const existingAgeGroup = await AgeGroupRepository.findOne({ where: { id } })
+
+    if (!existingAgeGroup) throw new Error(this.Errors.NoAgeGroupByIdError)
+
+    try {
+      await AgeGroupRepository.delete(existingAgeGroup)
+    } catch (error) {
+      throw new Error(this.Errors.AgeGroupDeletionError)
+    }
+
+    return `Age group deleted`
+  }
 }
 
 export default AgeGroupService
