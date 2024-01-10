@@ -18,7 +18,7 @@ class SportsController {
 
     try {
       CreateSportSchema.parse(name)
-      const message = await SportsService.createSport(name)
+      const message = await SportsService.createSport(name.toLowerCase())
       return res.status(201).json(message)
     } catch (error) {
       return handleError(res, error)

@@ -21,7 +21,7 @@ class AgeGroupController {
 
     try {
       CreateAgeGroupSchema.parse(name)
-      const message = await AgeGroupService.createAgeGroup(name)
+      const message = await AgeGroupService.createAgeGroup(name.toLowerCase())
       return res.status(201).json(message)
     } catch (error) {
       return handleError(res, error)
