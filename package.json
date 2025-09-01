@@ -55,7 +55,7 @@
     "swagger-ui-express": "^5.0.0",
     "ts-mockito": "^2.6.1",
     "ts-node": "^10.9.1",
-    "typeorm": "^0.3.18",
+    "typeorm": "^0.3.25",
     "uuidv4": "^6.2.13",
     "zod": "^3.22.4"
   },
